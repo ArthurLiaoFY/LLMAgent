@@ -4,4 +4,24 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = []
+dependencies = [
+    "chardet>=5.2.0",
+    "fastembed>=0.5.1",
+    "instructor[ollama]>=1.7.2",
+    "ipykernel>=6.29.5",
+    "langchain>=0.3.19",
+    "langchain-community>=0.3.17",
+    "langchain-huggingface>=0.1.2",
+    "langchain-ollama>=0.2.3",
+    "langchain-qdrant>=0.2.0",
+    "langgraph>=0.2.74",
+    "langgraph-cli[inmem]>=0.1.73",
+    "ollama>=0.4.7",
+    "openpyxl>=3.1.5",
+    "pandas>=2.2.3",
+    "qdrant-client[fastembed]>=1.13.2",
+    "seaborn>=0.13.2",
+    "streamlit>=1.42.1",
+    "watchdog>=6.0.0",
+    "xlrd>=2.0.1",
+]
