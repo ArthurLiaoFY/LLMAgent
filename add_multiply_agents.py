@@ -1,22 +1,17 @@
 # %%
 
-from typing import Annotated, Union
+from typing import Union
 
 import numpy as np
 from IPython.display import Image, display
 from langchain.cache import InMemoryCache
 from langchain.globals import set_debug, set_llm_cache
-from langchain_core.messages import ToolMessage, convert_to_messages
 from langchain_core.tools import tool
-from langchain_core.tools.base import InjectedToolCallId
 from langchain_ollama import ChatOllama
-from langgraph.graph import START, MessagesState, StateGraph
-from langgraph.prebuilt import InjectedState, create_react_agent
+from langgraph.prebuilt import create_react_agent
 from langgraph.prebuilt.chat_agent_executor import AgentState
-from langgraph.types import Command
 from langgraph_supervisor import create_handoff_tool, create_supervisor
 from pydantic import BaseModel, Field
-from typing_extensions import Literal
 
 set_llm_cache(InMemoryCache())
 set_debug(False)
