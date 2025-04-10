@@ -14,7 +14,13 @@ def database_connection(
 ) -> Union[connection, None]:
     """Connect to Postgres database"""
     try:
-        return psycopg2.connect(**postgres_connection_info)
+        return psycopg2.connect(
+            host=postgres_connection_info.get("host"),
+            port=postgres_connection_info.get("port"),
+            dbname=postgres_connection_info.get("dbname"),
+            user=postgres_connection_info.get("user"),
+            password=postgres_connection_info.get("password"),
+        )
 
     except psycopg2.OperationalError:
         return None

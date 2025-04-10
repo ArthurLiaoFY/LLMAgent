@@ -15,6 +15,13 @@ from agent_framework.core.tools.pg_utils import table_summary_extract_from_llm
 from agent_framework.core.tools.qdrant_utils import check_point_exist, upsert_collection
 
 
+def remove_sensitive_info_node(state: PostgresQdrantState):
+    return {
+        "postgres_connection_info": {},
+        "qdrant_connection_info": {},
+    }
+
+
 def get_table_info_node(state: PostgresQdrantState):
     postgres = connect_postgres_agent().invoke(
         {
