@@ -1,10 +1,13 @@
 {
     "llm_model": {
-        "vector_size": 5120,
         "model_name": "qwen2.5:14b"
     },
-    "sql_coder": {
-        "model_name": "qwen2.5:14b"
+    "llm_coder": {
+        "model_name": "qwen2.5-coder:14b"
+    },
+    "embd_model": {
+        "embd_size": 768,
+        "model_name": "nomic-embed-text:137m-v1.5-fp16"
     },
     "database": {
         "recursion_limit": 4
