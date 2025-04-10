@@ -14,9 +14,11 @@ class PostgresQdrantState(TypedDict):
     postgres_connection_info: Dict[str, Union[int, str]]
     # ---------------------------
     database: connection
+    database_is_connected: bool
     tables: Dict[str, TableState]
     # ---------------------------
     qdrant_connection_info: Dict[str, str]
+    vector_store_is_connected: bool
     collection: str
     # ---------------------------
     qdrant_client: QdrantClient

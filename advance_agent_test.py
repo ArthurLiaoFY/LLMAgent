@@ -11,7 +11,13 @@ with open("secrets.json") as f:
 with open("config.json") as f:
     config = json.loads(f.read())
 # %%
-table_summary_upsert_agent().invoke(
+agent = table_summary_upsert_agent()
+# %%
+# display(Image(agent.get_graph(xray=True).draw_mermaid_png()))
+
+
+# %%
+a = agent.invoke(
     {
         "postgres_connection_info": secrets.get("postgres"),
         "qdrant_connection_info": secrets.get("qdrant"),
@@ -22,6 +28,5 @@ table_summary_upsert_agent().invoke(
 )
 
 # %%
-
-display(Image(table_summary_upsert_agent().get_graph().draw_mermaid_png()))
+a
 # %%

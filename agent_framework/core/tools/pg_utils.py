@@ -1,11 +1,11 @@
 import pandas as pd
 import psycopg2
+from langchain.tools import tool
 from psycopg2.extensions import connection
 from typing_extensions import Dict, List, Union
 
 from agent_framework.core.model import llm_model
 from agent_framework.core.prompts.pg_prompts import pg_table_information_extractor
-from langchain.tools import tool
 
 
 @tool
@@ -14,13 +14,7 @@ def database_connection(
 ) -> Union[connection, None]:
     """Connect to Postgres database"""
     try:
-        return psycopg2.connect(
-            host=postgres_connection_info.get("host"),
-            port=postgres_connection_info.get("port"),
-            dbname=postgres_connection_info.get("dbname"),
-            user=postgres_connection_info.get("user"),
-            password=postgres_connection_info.get("password"),
-        )
+        return psycopg2.connect(**postgres_connection_info)
 
     except psycopg2.OperationalError:
         return None

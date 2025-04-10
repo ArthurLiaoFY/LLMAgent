@@ -29,6 +29,7 @@ def get_table_info_node(state: PostgresQdrantState):
     )
     return {
         "database": postgres["database"],
+        "database_is_connected": postgres["is_connected"],
         "tables": table_summary["tables"],
     }
 
@@ -49,6 +50,7 @@ def get_vector_store_info_node(state: PostgresQdrantState):
     )
     return {
         "qdrant_client": qdrant["qdrant_client"],
+        "vector_store_is_connected": qdrant["is_connected"],
         "vector_store": vector_store["vector_store"],
     }
 

@@ -24,7 +24,6 @@ def connect_qdrant_agent() -> CompiledStateGraph:
     graph = StateGraph(QdrantConnectionInfo)
     graph.add_node(node="connect_qdrant_client", action=connect_qdrant_client_node)
     graph.add_node(node="reconnect_qdrant_client", action=reconnect_qdrant_client_node)
-    graph.add_node(node="delete_sensitive_info", action=delete_connection_info_node)
 
     graph.add_edge(start_key=START, end_key="connect_qdrant_client")
     graph.add_conditional_edges(
@@ -33,7 +32,6 @@ def connect_qdrant_agent() -> CompiledStateGraph:
     graph.add_conditional_edges(
         source="reconnect_qdrant_client", path=client_connection_route
     )
-    # graph.add_edge(start_key="delete_sensitive_info", end_key=END)
 
     return graph.compile()
 

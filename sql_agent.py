@@ -1,6 +1,5 @@
 # %%
 import json
-from typing import Union
 
 import numpy as np
 import pandas as pd
@@ -10,44 +9,192 @@ from langchain.cache import InMemoryCache
 from langchain.globals import set_debug, set_llm_cache
 from langchain.sql_database import SQLDatabase
 from langchain_community.agent_toolkits import SQLDatabaseToolkit
-from langchain_core.prompts.chat import ChatPromptTemplate
+from langchain_community.tools.sql_database.tool import QuerySQLCheckerTool
+from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.tools import tool
 from langchain_ollama import ChatOllama
 from langgraph.prebuilt import create_react_agent
 from langgraph.prebuilt.chat_agent_executor import AgentState
 from langgraph_supervisor import create_handoff_tool, create_supervisor
+from langsmith import Client
 from psycopg2.extras import DictCursor
 from pydantic import BaseModel, Field
+from typing_extensions import Annotated, Dict, List, TypedDict, Union
 
 with open("secrets.json") as f:
     secrets = json.loads(f.read())
-
 set_llm_cache(InMemoryCache())
 set_debug(False)
 # %%
-model = ChatOllama(
-    model="qwen2.5:14b",
-    temperature=0,
+# Create a LANGSMITH_API_KEY in Settings > API Keys
+prompt = ChatPromptTemplate.from_messages(
+    [
+        {
+            "role": "system",
+            "content": """
+                Given an input question, create a syntactically correct {dialect} query to run to help find the answer. 
+                You can order the results by a relevant column to return the most interesting examples in the database.
+                Never query for all the columns from a specific table, only ask for a the few relevant columns given the question.
+                Pay attention to use only the column names that you can see in the schema description. 
+                Be careful to not query for columns that do not exist. 
+                Also, pay attention to which column is in which table.
+
+                Only use the following tables:
+                {table_info}
+            """,
+        },
+        {
+            "role": "human",
+            "content": "Question: {input}",
+        },
+    ]
+)
+
+prompt2 = ChatPromptTemplate.from_messages(
+    [
+        {
+            "role": "system",
+            "content": """
+                Given an SQL query, please check the followings and fix it.
+                    - Wrap each column name and table name in double quotes to denote them as delimited identifiers.
+            """,
+        },
+        {
+            "role": "human",
+            "content": "SQL query: {query}",
+        },
+    ]
 )
 
 
-class Response(BaseModel):
-    sql_query: str = Field(description="the sql query to answer the question.")
-
-
-class GraphState(AgentState):
-    structured_response: Response
-
-
+model = ChatOllama(
+    model="llama3.2:3b",
+    temperature=0,
+)
 db = psycopg2.connect(**secrets.get("postgres"))
-sql_tools = SQLDatabaseToolkit(
-    db=SQLDatabase.from_uri(
-        database_uri="postgresql://{user}:{password}@{host}:{port}/{dbname}".format(
-            **secrets.get("postgres")
+db_for_llm = SQLDatabase.from_uri(
+    database_uri="postgresql://{user}:{password}@{host}:{port}/{dbname}".format(
+        **secrets.get("postgres")
+    )
+)
+db_for_llm._sample_rows_in_table_info = 5
+
+
+@tool
+def get_table_schema(db: SQLDatabase, tables: List[str]):
+    """return the respective schema and sample rows for selected tables."""
+    return db.get_table_info_no_throw(table_names=tables)
+
+
+@tool
+def get_tables_from_db(db: SQLDatabase):
+    """return the tables from database."""
+    return db.get_usable_table_names()
+
+
+@tool
+def run_query(db: SQLDatabase, query: str):
+    """run query and return results"""
+    return db.run_no_throw(query)
+
+
+class SQLQueryOutput(BaseModel):
+    """Generated SQL query."""
+
+    query: Annotated[str, ..., "Syntactically valid SQL query."]
+
+
+# %%
+
+
+@tool
+def get_sql_query(db: SQLDatabase, question: str):
+    """
+    make llm return the answer of the question
+
+    Example:
+        get_sql_query.invoke(
+            {
+                "db": db_for_llm,
+                "question": "what is the mean and std of sepal length for 'setosa'",
+            }
         )
-    ),
-    llm=model,
-).get_tools()
+    """
+    return (
+        (prompt | model.with_structured_output(SQLQueryOutput))
+        .invoke(
+            {
+                "dialect": db.dialect,
+                "top_k": 10,
+                "table_info": db.get_table_info_no_throw(
+                    table_names=db.get_usable_table_names()
+                ),
+                "input": question,
+            }
+        )
+        .query
+    )
+
+
+@tool
+def basic_check_sql_query_without_execute(query: str):
+    """
+    check the query result without executing
+    """
+    return (
+        (prompt2 | model.with_structured_output(SQLQueryOutput))
+        .invoke(
+            {
+                "query": query,
+            }
+        )
+        .query
+    )
+
+
+query = get_sql_query.invoke(
+    {
+        "db": db_for_llm,
+        "question": "what is the mean and std of sepal length for 'setosa'",
+    }
+)
+query2 = basic_check_sql_query_without_execute.invoke({"query": query})
+
+# sql_query_checker = QuerySQLCheckerTool(db=db_for_llm, llm=model)
+# sql_query_checker.invoke(
+#     {
+#         "query": "SELECT AVG(SepalLength) AS Mean, STDDEV(SepalLength) AS Std FROM Iris WHERE Species = 'Iris-setosa';"
+#     }
+# )
+
+# %%
+
+
+class Response(BaseModel):
+    sql_query: str = Field(description="The postgreSQL query to answer the question.")
+
+
+class SQLTableSchema(TypedDict):
+    columns: List[str]
+    schema: str
+
+
+class GraphState(BaseModel):
+    list_of_tables: List[str] = Field(description="list of tables in database")
+    table_schemas: Dict[str, str] = Field(
+        description="dict of table as key and schema as value"
+    )
+
+
+ChatPromptTemplate.from_messages(
+    [
+        (
+            "system",
+            "Write a concise summary of the following SQL information: \\n\\n"
+            "{single_table_info}",
+        )
+    ]
+)
 
 sql_agent_prompt = """
     You are an agent designed to interact with a SQL database.
