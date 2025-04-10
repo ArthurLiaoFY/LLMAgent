@@ -1,7 +1,7 @@
 from qdrant_client.models import Distance, PointStruct, VectorParams
 from typing_extensions import Dict
 
-from agent_framework.core.model import llm_embd, llm_vector_size
+from agent_framework.core.model import embd_model, embd_size
 from agent_framework.core.states.qdrant_states import (
     QdrantClientState,
     QdrantConnectionInfo,
@@ -60,7 +60,7 @@ def create_new_collection_node(
         {
             "qdrant_client": state["qdrant_client"],
             "collection": state["collection"],
-            "llm_vector_size": llm_vector_size,
+            "llm_vector_size": embd_size,
         }
     )
 
@@ -72,7 +72,7 @@ def connect_collection_node(
         {
             "qdrant_client": state["qdrant_client"],
             "collection": state["collection"],
-            "llm_embd": llm_embd,
+            "llm_embd": embd_model,
         }
     )
     return {
