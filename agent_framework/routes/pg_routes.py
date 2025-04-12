@@ -1,7 +1,7 @@
 from langgraph.graph import END, START, StateGraph
 from langgraph.types import Send
 
-from agent_framework.core.states.pg_states import PostgresConnectionInfo
+from agent_framework.states.pg_states import PostgresConnectionInfo
 
 
 def database_connection_route(state: PostgresConnectionInfo):

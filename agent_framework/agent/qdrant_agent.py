@@ -2,19 +2,19 @@ from langchain_core.runnables import RunnablePassthrough
 from langgraph.graph import END, START, StateGraph
 from langgraph.graph.state import CompiledStateGraph
 
-from agent_framework.core.nodes.qdrant_nodes import (
+from agent_framework.nodes.qdrant_nodes import (
     connect_collection_node,
     connect_qdrant_client_node,
     create_new_collection_node,
     delete_connection_info_node,
     reconnect_qdrant_client_node,
 )
-from agent_framework.core.routes.llm_routes import llm_inference_route
-from agent_framework.core.routes.qdrant_routes import (
+from agent_framework.routes.llm_routes import llm_inference_route
+from agent_framework.routes.qdrant_routes import (
     client_connection_route,
     collection_connection_route,
 )
-from agent_framework.core.states.qdrant_states import (
+from agent_framework.states.qdrant_states import (
     QdrantClientState,
     QdrantConnectionInfo,
 )

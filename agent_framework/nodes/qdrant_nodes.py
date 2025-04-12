@@ -1,12 +1,12 @@
 from qdrant_client.models import Distance, PointStruct, VectorParams
 from typing_extensions import Dict
 
-from agent_framework.core.model import embd_model, embd_size
-from agent_framework.core.states.qdrant_states import (
+from agent_framework.model import embd_model, embd_size
+from agent_framework.states.qdrant_states import (
     QdrantClientState,
     QdrantConnectionInfo,
 )
-from agent_framework.core.tools.qdrant_utils import (
+from agent_framework.tools.qdrant_utils import (
     connect_collection,
     connect_qdrant_client,
     create_collection_vector_store,

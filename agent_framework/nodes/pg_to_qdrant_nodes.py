@@ -1,18 +1,18 @@
-from agent_framework.core.agent.pg_agent import (
+from agent_framework.agent.pg_agent import (
     connect_postgres_agent,
     get_postgres_table_info_agent,
 )
-from agent_framework.core.agent.qdrant_agent import (
+from agent_framework.agent.qdrant_agent import (
     connect_qdrant_agent,
     connect_qdrant_collection_agent,
 )
-from agent_framework.core.model import llm_model
-from agent_framework.core.prompts.pg_prompts import pg_table_information_extractor
-from agent_framework.core.prompts.sql_prompts import sql_coder_from_rag
-from agent_framework.core.states.pg_to_qdrant_states import PostgresQdrantState
-from agent_framework.core.tools.doc_utils import join_docs, str_to_doc
-from agent_framework.core.tools.pg_utils import table_summary_extract_from_llm
-from agent_framework.core.tools.qdrant_utils import check_point_exist, upsert_collection
+from agent_framework.model import llm_model
+from agent_framework.prompts.pg_prompts import pg_table_information_extractor
+from agent_framework.prompts.sql_prompts import sql_coder_from_rag
+from agent_framework.states.pg_to_qdrant_states import PostgresQdrantState
+from agent_framework.tools.doc_utils import join_docs, str_to_doc
+from agent_framework.tools.pg_utils import table_summary_extract_from_llm
+from agent_framework.tools.qdrant_utils import check_point_exist, upsert_collection
 
 
 def remove_sensitive_info_node(state: PostgresQdrantState):

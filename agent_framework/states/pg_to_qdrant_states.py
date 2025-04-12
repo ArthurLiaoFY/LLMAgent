@@ -3,7 +3,7 @@ from psycopg2.extensions import connection
 from qdrant_client import QdrantClient
 from typing_extensions import Annotated, Dict, List, TypedDict, Union
 
-from agent_framework.core.states.pg_states import TableState
+from agent_framework.states.pg_states import TableState
 
 
 class PostgresQdrantState(TypedDict):

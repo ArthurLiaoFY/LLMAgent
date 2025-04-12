@@ -3,15 +3,15 @@ from langgraph.types import Send
 from qdrant_client.models import Distance, PointStruct, VectorParams
 from typing_extensions import Dict, List, Union
 
-from agent_framework.core.model import llm_model
-from agent_framework.core.prompts.pg_prompts import pg_table_information_extractor
-from agent_framework.core.states.pg_states import (
+from agent_framework.model import llm_model
+from agent_framework.prompts.pg_prompts import pg_table_information_extractor
+from agent_framework.states.pg_states import (
     DatabaseState,
     PostgresConnectionInfo,
     TableState,
 )
-from agent_framework.core.tools.doc_utils import str_to_doc
-from agent_framework.core.tools.pg_utils import (
+from agent_framework.tools.doc_utils import str_to_doc
+from agent_framework.tools.pg_utils import (
     close_connection,
     connection,
     database_connection,
@@ -24,7 +24,7 @@ from agent_framework.core.tools.pg_utils import (
     get_table_primary_key,
     query,
 )
-from agent_framework.core.tools.qdrant_utils import check_point_exist
+from agent_framework.tools.qdrant_utils import check_point_exist
 
 
 def connect_database_node(

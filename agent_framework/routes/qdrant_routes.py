@@ -1,7 +1,7 @@
 from langgraph.graph import END, START, StateGraph
 from langgraph.types import Send
 
-from agent_framework.core.states.qdrant_states import (
+from agent_framework.states.qdrant_states import (
     QdrantClientState,
     QdrantConnectionInfo,
 )

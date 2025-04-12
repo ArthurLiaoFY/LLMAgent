@@ -6,7 +6,7 @@ from langchain_core.runnables import (
 from langgraph.graph import END, START, StateGraph
 from langgraph.graph.state import CompiledStateGraph
 
-from agent_framework.core.nodes.pg_to_qdrant_nodes import (
+from agent_framework.nodes.pg_to_qdrant_nodes import (
     check_point_exist_node,
     extract_table_summary_node,
     get_table_info_node,
@@ -14,11 +14,11 @@ from agent_framework.core.nodes.pg_to_qdrant_nodes import (
     remove_sensitive_info_node,
     upsert_to_vector_database_node,
 )
-from agent_framework.core.routes.pg_to_qdrant_routes import (
+from agent_framework.routes.pg_to_qdrant_routes import (
     database_connection_fail_route,
     vector_store_connection_fail_route,
 )
-from agent_framework.core.states.pg_to_qdrant_states import PostgresQdrantState
+from agent_framework.states.pg_to_qdrant_states import PostgresQdrantState
 
 
 def table_summary_upsert_agent() -> CompiledStateGraph:

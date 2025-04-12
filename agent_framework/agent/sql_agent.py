@@ -9,8 +9,8 @@ from langchain_core.prompts.chat import (
     MessagesPlaceholder,
 )
 
-from agent_framework.core.model import llm_model
-from agent_framework.core.tools.handoff_tools import make_handoff_tool
+from agent_framework.model import llm_model
+from agent_framework.tools.handoff_tools import make_handoff_tool
 
 
 class SQLAgentExecutor:

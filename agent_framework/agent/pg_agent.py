@@ -1,15 +1,15 @@
 from langgraph.graph import END, START, StateGraph
 from langgraph.graph.state import CompiledStateGraph
 
-from agent_framework.core.nodes.pg_nodes import (
+from agent_framework.nodes.pg_nodes import (
     connect_database_node,
     delete_connection_info_node,
     get_database_common_info_node,
     reconnect_database_node,
 )
-from agent_framework.core.routes.llm_routes import llm_inference_route
-from agent_framework.core.routes.pg_routes import database_connection_route
-from agent_framework.core.states.pg_states import DatabaseState, PostgresConnectionInfo
+from agent_framework.routes.llm_routes import llm_inference_route
+from agent_framework.routes.pg_routes import database_connection_route
+from agent_framework.states.pg_states import DatabaseState, PostgresConnectionInfo
 
 
 def connect_postgres_agent() -> CompiledStateGraph:

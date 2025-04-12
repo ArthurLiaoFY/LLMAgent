@@ -2,7 +2,7 @@ from langchain_qdrant import QdrantVectorStore
 from qdrant_client import QdrantClient
 from typing_extensions import Dict, TypedDict, Union
 
-from agent_framework.core.states.pg_states import TableState
+from agent_framework.states.pg_states import TableState
 
 
 class QdrantConnectionInfo(TypedDict):

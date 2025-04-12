@@ -4,8 +4,8 @@ from langchain.tools import tool
 from psycopg2.extensions import connection
 from typing_extensions import Dict, List, Union
 
-from agent_framework.core.model import llm_model
-from agent_framework.core.prompts.pg_prompts import pg_table_information_extractor
+from agent_framework.model import llm_model
+from agent_framework.prompts.pg_prompts import pg_table_information_extractor
 
 
 @tool
