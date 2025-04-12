@@ -10,5 +10,7 @@ wheels/
 .venv
 
 # Others
-test.
+test*
 secrets.json
+*.pdf
+*.csv
