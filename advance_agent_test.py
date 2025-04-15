@@ -20,7 +20,7 @@ agent = table_summary_upsert_agent()
 a = agent.invoke(
     {
         "postgres_connection_info": secrets.get("postgres"),
-        "qdrant_connection_info": secrets.get("qdrant"),
+        "qdrant_connection_info": secrets.get("qdrant").get("cloud"),
         "collection": config.get("vector_store").get("collection"),
         "recursion_limit": 4,
         "debug": False,
