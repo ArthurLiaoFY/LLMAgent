@@ -23,8 +23,9 @@ model = ChatOllama(
 
 
 class Response(BaseModel):
-    mathematic_answer: Union[float, int] = Field(
-        description="the answer of the math equation."
+    ai_message: str = Field(description="The AI message of the question.")
+    mathematic_answer: Union[float, int, None] = Field(
+        description="the answer of the math equation, return None if not a math question."
     )
 
 
@@ -85,6 +86,7 @@ multiplication_agent = create_react_agent(
         "You are an multiplication expert, you can ask the addition expert for help with addition. "
         "Always do your portion of calculation before the handoff."
     ),
+    state_schema=GraphState,
 )
 supervisor = create_supervisor(
     agents=[addition_agent, multiplication_agent],
