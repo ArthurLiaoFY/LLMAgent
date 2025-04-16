@@ -12,5 +12,6 @@ wheels/
 # Others
 test*
 secrets.json
+qdrant_storage
 *.pdf
 *.csv
