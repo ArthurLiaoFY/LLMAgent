@@ -5,7 +5,7 @@ from qdrant_client import QdrantClient, models
 from sentence_transformers import SentenceTransformer
 
 # %%
-with open("../secrets.json") as f:
+with open("../../secrets.json") as f:
     secrets = json.loads(f.read())
 # %%
 client = QdrantClient(**secrets.get("qdrant").get("local"))

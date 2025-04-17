@@ -9,9 +9,9 @@ from sentence_transformers import SentenceTransformer
 from tqdm.notebook import tqdm
 
 # %%
-with open("../secrets.json") as f:
+with open("../../secrets.json") as f:
     secrets = json.loads(f.read())
-with open("../startups_demo.json") as f:
+with open("../../startups_demo.json") as f:
     startups_demo = json.loads(f.read())
 # %%
 client = QdrantClient(**secrets.get("qdrant").get("local"))

@@ -24,6 +24,8 @@ with open("../../secrets.json") as f:
 with open("../../config.json") as f:
     config = json.loads(f.read())
 
+thread_id = "test123"
+
 os.environ["LANGSMITH_API_KEY"] = secrets.get("langsmith").get("api_key")
 os.environ["TAVILY_API_KEY"] = secrets.get("tavily").get("api_key")
 
@@ -59,7 +61,7 @@ sql_agent = create_react_agent(
     name="sql agent",
     model=llm,
     tools=[
-        *sql_tools,
+        # *sql_tools,
         create_handoff_tool(
             agent_name="search_agent",
             name="handoff_to_search_agent",
@@ -129,7 +131,6 @@ app = supervisor.compile()
 display(Image(app.get_graph(xray=True).draw_mermaid_png()))
 
 # %%
-thread_id = "test123"
 result = app.invoke(
     input={"messages": ["my name is arthur."]},
     config={"configurable": {"thread_id": thread_id}},
@@ -142,6 +143,16 @@ app.invoke(
 )
 # %%
 app.invoke(
+    input={
+        "messages": [
+            "what is the sum of duration time group by equipment and status from 2024/09/01 00:00:00 to 2024/09/07 00:00:00",
+        ]
+    },
+    config={"configurable": {"thread_id": thread_id}},
+)
+
+# %%
+sql_agent.invoke(
     input={
         "messages": [
             "what is the sum of duration time group by equipment and status from 2024/09/01 00:00:00 to 2024/09/07 00:00:00",

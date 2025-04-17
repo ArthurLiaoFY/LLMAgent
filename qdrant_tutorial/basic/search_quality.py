@@ -6,7 +6,7 @@ from datasets import load_dataset
 from qdrant_client import QdrantClient, models
 
 # %%
-with open("../secrets.json") as f:
+with open("../../secrets.json") as f:
     secrets = json.loads(f.read())
 dataset = load_dataset(
     "Qdrant/arxiv-titles-instructorxl-embeddings", split="train", streaming=True

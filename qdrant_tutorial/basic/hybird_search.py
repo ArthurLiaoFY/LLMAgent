@@ -12,7 +12,7 @@ from qdrant_client.qdrant_fastembed import (
 
 # %%
 # %%
-with open("../secrets.json") as f:
+with open("../../secrets.json") as f:
     secrets = json.loads(f.read())
 # %%
 client = QdrantClient(**secrets.get("qdrant").get("local"))

@@ -8,7 +8,7 @@ from qdrant_client.http.models import CollectionStatus
 from qdrant_client.models import Distance, PointStruct, VectorParams
 
 # %%
-with open("../secrets.json") as f:
+with open("../../secrets.json") as f:
     secrets = json.loads(f.read())
 # %%
 client = QdrantClient(**secrets.get("qdrant").get("local"))
