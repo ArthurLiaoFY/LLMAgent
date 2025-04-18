@@ -31,7 +31,7 @@ def textify(chunk: Dict[str, Any]) -> str:
     # Check if docstring is provided
     docstring = ""
     if chunk["docstring"]:
-        docstring = f"that does {chunk['docstring']} "
+        docstring = f"that docs {chunk['docstring']} "
 
     # Extract the location of that snippet of code
     context = (
