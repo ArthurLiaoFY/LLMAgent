@@ -47,7 +47,9 @@ if not client.collection_exists(collection_name=collection_name):
 client.upload_collection(
     collection_name=collection_name,
     vectors=[embd_model.encode(sentences=doc_s.page_content) for doc_s in doc_splits],
-    payload=[doc_s.metadata for doc_s in doc_splits],
+    payload=[
+        {**doc_s.metadata, **{"content": doc_s.page_content}} for doc_s in doc_splits
+    ],
     ids=[idx for idx in range(len(doc_splits))],
     # Vector ids will be assigned automatically,
     # if you dont specify the id, the collection may have duplicate data with different id
