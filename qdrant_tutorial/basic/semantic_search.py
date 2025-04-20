@@ -129,7 +129,7 @@ for hit in hits:
 
 # %%
 hits = client.query_points(
-    collection_name="my_books",
+    collection_name=collection_name,
     query=encoder.encode("alien invasion").tolist(),
     query_filter=models.Filter(
         must=[models.FieldCondition(key="year", range=models.Range(gte=2000))]

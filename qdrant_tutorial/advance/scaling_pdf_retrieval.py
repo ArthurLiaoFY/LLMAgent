@@ -171,9 +171,9 @@ def upload_batch(
         client.upload_collection(
             collection_name=collection_name,
             vectors={
+                "mean_pooling_rows": pooled_by_rows_batch,
                 "mean_pooling_columns": pooled_by_columns_batch,
                 "original": original_batch,
-                "mean_pooling_rows": pooled_by_rows_batch,
             },
             payload=payload_batch,
             ids=[str(uuid.uuid4()) for i in range(len(original_batch))],
