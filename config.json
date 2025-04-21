@@ -6,8 +6,8 @@
         "model_name": "qwen2.5-coder:14b"
     },
     "embd_model": {
-        "embd_size": 768,
-        "model_name": "nomic-embed-text:137m-v1.5-fp16"
+        "embd_size": 384,
+        "model_name": "all-MiniLM-L6-v2"
     },
     "database": {
         "recursion_limit": 4
