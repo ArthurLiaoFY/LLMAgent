@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  qdrant:
+    image: qdrant/qdrant
+    container_name: qdrant
+    ports:
+      - "6333:6333"
+    volumes:
+      - ~/WorkSpace/qdrant_storage:/qdrant/storage
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535
