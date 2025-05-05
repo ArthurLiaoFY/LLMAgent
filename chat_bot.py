@@ -67,7 +67,12 @@ agent = create_react_agent(
     model=llm,
     tools=[tavily_tool, fahrenheit_to_celsius, celsius_to_fahrenheit],
     state_schema=GraphState,
-    response_format=("Always call temperature convert tools while converting temperatures", Response),
+    response_format=(
+        "Always call temperature convert tools while you only got celsius temperature or fahrenheit temperature, "
+        "if you receive celsius temperature, use tool 'celsius_to_fahrenheit', "
+        "if you receive fahrenheit temperature, use tool 'fahrenheit_to_celsius'.",
+        Response,
+    ),
     prompt="""
     You are a supervisor, 
     for searching task, use tavily tool, 
