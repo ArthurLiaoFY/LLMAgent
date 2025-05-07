@@ -1,6 +1,6 @@
 {
     "llm_model": {
-        "model_name": "qwen2.5:14b"
+        "model_name": "qwen3:14b"
     },
     "llm_coder": {
         "model_name": "qwen2.5-coder:14b"
